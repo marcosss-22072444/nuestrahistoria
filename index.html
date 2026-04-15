@@ -157,4 +157,14 @@
     </script>
 
 </body>
+    <script>
+  var password = "220724"; // 
+  var input = prompt("Introduce la contraseña para ver el sitio:");
+  
+  if (input !== password) {
+    alert("Acceso denegado.");
+    window.location.href = "https://google.com"; // Redirige si falla
+  }
+</script>
+
 </html>
