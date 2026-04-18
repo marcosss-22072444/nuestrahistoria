@@ -36,7 +36,7 @@
             padding: 15px;
             font-size: 1.2em;
             border-radius: 15px;
-            border: none;
+            border: 2px solid white;
             outline: none;
             text-align: center;
             margin-top: 20px;
@@ -61,7 +61,7 @@
             flex-wrap: wrap; 
             justify-content: center; 
             align-items: center; 
- gap: 20px; 
+            gap: 20px; 
             width: 100%;
             max-width: 1200px;
             margin-bottom: 50px;
@@ -85,7 +85,6 @@
         figure:nth-child(2) { animation-delay: 1s; }
         figure:nth-child(3) { animation-delay: 2s; }
         figure:nth-child(4) { animation-delay: 3s; }
-        /* Animación para el quinto botón */
         figure:nth-child(5) { animation-delay: 4s; }
 
         @keyframes flotarTodo {
@@ -134,7 +133,7 @@
 
     <div id="bloqueo">
         <h2>🤍 Contraseña 🤍</h2>
-        <input type="password" id="pass" placeholder="Nuestra fecha..." oninput="validar()">
+        <input type="password" id="pass" placeholder="Nuestra fecha..." oninput="validar()" maxlength="6">
     </div>
 
     <div class="contenido" id="miGaleria">
@@ -142,4 +141,70 @@
 
         <div class="galeria">
             <figure onclick="irAlbum(event)">
-                <img src="foto1.jpg
+                <img src="foto1.jpg">
+                <figcaption>Nuestra primera foto</figcaption>
+            </figure>
+
+            <figure onclick="crearCorazon(event)">
+                <img src="foto2.jpg">
+                <figcaption>Nuestra historia (fotos)</figcaption>
+            </figure>
+
+            <figure onclick="crearCorazon(event)">
+                <img src="foto3.png">
+                <figcaption>Nuestra historia (libro)</figcaption>
+            </figure>
+
+            <figure onclick="irAmor(event)">
+                <img src="foto4.png">
+                <figcaption>para ti amor mio</figcaption>
+            </figure>
+
+            <figure onclick="irJordan(event)">
+                <img src="foto5.png">
+                <figcaption>Mis Jordan</figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <script>
+        function validar() {
+            const input = document.getElementById('pass').value;
+            // Al llegar a los 6 caracteres, comprueba automáticamente
+            if (input === '220724') {
+                document.getElementById('bloqueo').style.setProperty('display', 'none', 'important');
+                document.getElementById('miGaleria').style.setProperty('display', 'flex', 'important');
+            }
+        }
+
+        function irAlbum(e) {
+            crearCorazon(e);
+            setTimeout(() => { window.location.href = "https://photos.app.goo.gl/DKeySBjuzfcf59fYA"; }, 150);
+        }
+
+        function irAmor(e) {
+            crearCorazon(e);
+            setTimeout(() => { window.location.href = "amor.html"; }, 150);
+        }
+
+        function irJordan(e) {
+            crearCorazon(e);
+            setTimeout(() => { 
+                window.location.href = "https://marcosss-22072444.github.io/Lasjordanmiamorteamoojaladurarparasiempre/"; 
+            }, 150);
+        }
+
+        function crearCorazon(e) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-spark';
+            heart.innerHTML = '🤍'; 
+            const x = e.pageX || (e.touches && e.touches[0].pageX);
+            const y = e.pageY || (e.touches && e.touches[0].pageY);
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 600);
+        }
+    </script>
+</body>
+</html>
