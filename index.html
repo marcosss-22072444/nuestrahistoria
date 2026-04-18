@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Historia 🤍</title>
+    <title>Nuestra Historia 💖</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 
@@ -19,6 +19,35 @@
             flex-direction: column;
             align-items: center;
         }
+
+        /* BLOQUEO DE CONTRASEÑA */
+        #bloqueo {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #e6699c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #bloqueo input {
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 15px;
+            border: none;
+            outline: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #e6699c;
+            font-weight: bold;
+        }
+
+        #bloqueo h2 { margin-bottom: 10px; }
+
+        /* CONTENIDO PRINCIPAL */
+        .contenido { display: none; width: 100%; flex-direction: column; align-items: center; }
 
         h1 { 
             color: white; 
@@ -101,33 +130,46 @@
 </head>
 <body>
 
-    <h1>🤍 Nuestra Historia 🤍</h1>
+    <div id="bloqueo">
+        <h2>🤍 Contraseña 🤍</h2>
+        <input type="password" id="pass" placeholder="Nuestra fecha..." oninput="validar()">
+    </div>
 
-    <div class="galeria">
-        
-        <figure onclick="irAlbum(event)">
-            <img src="foto1.jpg">
-            <figcaption>Nuestra primera foto</figcaption>
-        </figure>
+    <div class="contenido" id="miGaleria">
+        <h1>🤍 Nuestra Historia 🤍</h1>
 
-        <figure onclick="crearCorazon(event)">
-            <img src="foto2.jpg">
-            <figcaption>Nuestra historia (fotos)</figcaption>
-        </figure>
+        <div class="galeria">
+            <figure onclick="irAlbum(event)">
+                <img src="foto1.jpg">
+                <figcaption>Nuestra primera foto</figcaption>
+            </figure>
 
-        <figure onclick="crearCorazon(event)">
-            <img src="foto3.png">
-            <figcaption>Nuestra historia (libro)</figcaption>
-        </figure>
+            <figure onclick="crearCorazon(event)">
+                <img src="foto2.jpg">
+                <figcaption>Nuestra historia (fotos)</figcaption>
+            </figure>
 
-        <figure onclick="irAmor(event)">
-            <img src="foto4.png">
-            <figcaption>para ti amor mio</figcaption>
-        </figure>
+            <figure onclick="crearCorazon(event)">
+                <img src="foto3.jpg">
+                <figcaption>Nuestra historia (libro)</figcaption>
+            </figure>
 
+            <figure onclick="irAmor(event)">
+                <img src="foto4.png">
+                <figcaption>para ti amor mio</figcaption>
+            </figure>
+        </div>
     </div>
 
     <script>
+        function validar() {
+            const input = document.getElementById('pass').value;
+            if (input === '220724') {
+                document.getElementById('bloqueo').style.display = 'none';
+                document.getElementById('miGaleria').style.display = 'flex';
+            }
+        }
+
         function irAlbum(e) {
             crearCorazon(e);
             setTimeout(() => { window.location.href = "https://photos.app.goo.gl/DKeySBjuzfcf59fYA"; }, 150);
