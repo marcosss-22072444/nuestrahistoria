@@ -18,10 +18,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
-        /* PANTALLAS DE BLOQUEO Y MENSAJE */
-        #bloqueo, #mensajeIntermedio {
+        /* CAPAS DE BLOQUEO Y MENSAJE */
+        .pantalla-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: #e6699c;
@@ -32,40 +33,69 @@
             z-index: 9999;
             padding: 20px;
             box-sizing: border-box;
+            transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
         }
 
-        #mensajeIntermedio { display: none; }
+        .ocultar-suave {
+            opacity: 0;
+            filter: blur(10px);
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        #mensajeIntermedio { display: none; opacity: 0; }
+        .mostrar-suave { display: flex !important; animation: fadeIn 1s forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         input {
             padding: 15px;
             font-size: 1.2em;
             border-radius: 15px;
-            border: 2px solid white;
+            border: 2px solid rgba(255,255,255,0.5);
             outline: none;
             text-align: center;
             margin-top: 20px;
             color: #e6699c;
             font-weight: bold;
+            background: white;
+            transition: all 0.3s ease;
         }
 
+        input:focus { border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+
+        /* BOTÓN LLAMATIVO */
         .btn-romantico {
             margin-top: 25px;
-            padding: 15px 30px;
+            padding: 18px 35px;
             background-color: white;
             color: #e6699c;
             border: none;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1.1em;
+            font-size: 1.2em;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .btn-romantico:active { transform: scale(0.9); }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        .btn-romantico:hover { transform: scale(1.05); }
+        .btn-romantico:active { transform: scale(0.95); }
 
         /* CONTENIDO PRINCIPAL */
-        .contenido { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .contenido { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; }
 
         h1 { 
             color: white; 
@@ -79,50 +109,51 @@
             flex-wrap: wrap; 
             justify-content: center; 
             align-items: center; 
-            gap: 20px; 
+            gap: 25px; 
             width: 100%;
             max-width: 1200px;
-            margin-bottom: 50px;
+            padding-bottom: 50px;
         }
 
         figure {
             background: rgba(255, 255, 255, 0.95);
             padding: 12px;
             border-radius: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 280px; 
             margin: 0;
             cursor: pointer;
             position: relative;
             animation: flotarTodo 5s infinite ease-in-out;
-            transition: transform 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             box-sizing: border-box;
             flex: 0 0 280px;
         }
 
-        figure:nth-child(n) { animation-delay: calc(0.5s * var(--i, 1)); }
+        figure:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
 
         @keyframes flotarTodo {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
 
         img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 18px; display: block; }
 
         figcaption { margin-top: 15px; font-weight: 600; color: #e6699c; font-size: 1.1em; }
 
+        /* CORAZONES */
         .heart-spark {
             position: absolute;
             pointer-events: none;
-            animation: fadeUp 0.6s forwards;
+            animation: fadeUp 0.7s ease-out forwards;
             color: white; 
-            font-size: 30px;
+            font-size: 35px;
             z-index: 1000;
         }
 
         @keyframes fadeUp {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -120px) scale(1.5); }
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5) rotate(0deg); }
+            100% { opacity: 0; transform: translate(-50%, -150px) scale(1.8) rotate(20deg); }
         }
 
         @media (max-width: 600px) { figure { flex: 0 0 90%; } }
@@ -130,32 +161,32 @@
 </head>
 <body>
 
-    <div id="bloqueo">
+    <div id="bloqueo" class="pantalla-overlay">
         <h2>🤍 Contraseña 🤍</h2>
         <input type="password" id="pass" placeholder="Nuestra fecha..." oninput="validar()" maxlength="6">
     </div>
 
-    <div id="mensajeIntermedio">
-        <h2 style="line-height: 1.6;">esto es solo para ti....🤍</h2>
+    <div id="mensajeIntermedio" class="pantalla-overlay">
+        <h2 style="line-height: 1.6; font-weight: 300;">esto es solo para ti....🤍</h2>
         <button class="btn-romantico" onclick="abrirTodo()">pulsa aqui si me quieres</button>
     </div>
 
     <div class="contenido" id="miGaleria">
         <h1>🤍 Nuestra Historia 🤍</h1>
         <div class="galeria">
-            <figure style="--i:1" onclick="irUrl(event, 'https://photos.app.goo.gl/DKeySBjuzfcf59fYA')">
+            <figure onclick="irUrl(event, 'https://photos.app.goo.gl/DKeySBjuzfcf59fYA')">
                 <img src="foto1.jpg"><figcaption>Nuestra primera foto</figcaption>
             </figure>
-            <figure style="--i:2" onclick="crearCorazon(event)">
+            <figure onclick="crearCorazon(event)">
                 <img src="foto2.jpg"><figcaption>Nuestra historia (fotos)</figcaption>
             </figure>
-            <figure style="--i:3" onclick="crearCorazon(event)">
+            <figure onclick="crearCorazon(event)">
                 <img src="foto3.png"><figcaption>Nuestra historia (libro)</figcaption>
             </figure>
-            <figure style="--i:4" onclick="irUrl(event, 'amor.html')">
+            <figure onclick="irUrl(event, 'amor.html')">
                 <img src="foto4.png"><figcaption>para ti amor mio</figcaption>
             </figure>
-            <figure style="--i:5" onclick="irUrl(event, 'https://marcosss-22072444.github.io/Lasjordanmiamorteamoojaladurarparasiempre/')">
+            <figure onclick="irUrl(event, 'https://marcosss-22072444.github.io/Lasjordanmiamorteamoojaladurarparasiempre/')">
                 <img src="foto5.png"><figcaption>Las jordan</figcaption>
             </figure>
         </div>
@@ -165,20 +196,33 @@
         function validar() {
             const input = document.getElementById('pass').value;
             if (input === '220724') {
-                document.getElementById('bloqueo').style.display = 'none';
-                document.getElementById('mensajeIntermedio').style.display = 'flex';
+                const bloqueo = document.getElementById('bloqueo');
+                bloqueo.classList.add('ocultar-suave');
+                
+                setTimeout(() => {
+                    bloqueo.style.display = 'none';
+                    const mensaje = document.getElementById('mensajeIntermedio');
+                    mensaje.classList.add('mostrar-suave');
+                }, 800);
             }
         }
 
         function abrirTodo() {
-            document.getElementById('mensajeIntermedio').style.display = 'none';
-            document.getElementById('miGaleria').style.display = 'flex';
-            window.scrollTo(0,0);
+            const mensaje = document.getElementById('mensajeIntermedio');
+            mensaje.classList.add('ocultar-suave');
+            
+            setTimeout(() => {
+                mensaje.style.display = 'none';
+                const galeria = document.getElementById('miGaleria');
+                galeria.style.display = 'flex';
+                galeria.classList.add('mostrar-suave');
+                window.scrollTo(0,0);
+            }, 800);
         }
 
         function irUrl(e, url) {
             crearCorazon(e);
-            setTimeout(() => { window.location.href = url; }, 150);
+            setTimeout(() => { window.location.href = url; }, 200);
         }
 
         function crearCorazon(e) {
@@ -190,7 +234,7 @@
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 600);
+            setTimeout(() => { heart.remove(); }, 700);
         }
     </script>
 </body>
