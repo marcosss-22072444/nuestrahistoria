@@ -15,9 +15,9 @@
             padding: 0;
             color: white; 
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* SECCIONES CON TRANSICIÓN SUAVE */
         .seccion {
             display: none; 
             flex-direction: column;
@@ -37,7 +37,6 @@
 
         #capa1-password { display: flex; }
 
-        /* TÍTULO AJUSTADO PARA QUE NO SE BAJEN LOS CORAZONES */
         h1 { 
             font-size: 1.6rem !important; 
             white-space: nowrap;
@@ -55,10 +54,8 @@
             font-weight: bold;
             background: white;
             outline: none;
-            transition: all 0.3s;
         }
 
-        /* BOTÓN CON ANIMACIÓN LLAMATIVA PERO LIMPIA */
         .btn-romantico {
             margin-top: 25px;
             padding: 18px 35px;
@@ -70,7 +67,6 @@
             font-size: 1.1em;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             cursor: pointer;
-            transition: transform 0.2s;
             animation: latido 2s infinite;
         }
 
@@ -80,9 +76,6 @@
             100% { transform: scale(1); }
         }
 
-        .btn-romantico:active { transform: scale(0.95); }
-
-        /* GALERÍA */
         .galeria { 
             display: flex; 
             flex-wrap: wrap; 
@@ -99,6 +92,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             margin: 0;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 18px; display: block; }
@@ -121,6 +115,8 @@
     </style>
 </head>
 <body>
+
+    <div id="player" style="position: absolute; top: -1000px;"></div>
 
     <div id="capa1-password" class="seccion">
         <h2>🤍 Contraseña 🤍</h2>
@@ -154,6 +150,27 @@
     </div>
 
     <script>
+        // Cargar la API de YouTube
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: '9n-hyA2-FDg', // El ID del video de Louis Armstrong
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': '9n-hyA2-FDg'
+                }
+            });
+        }
+
         function validar() {
             const val = document.getElementById('pass').value;
             if (val === '220724') {
@@ -164,6 +181,12 @@
         }
 
         function mostrarGaleria() {
+            // Iniciar música de forma suave
+            if (player && player.playVideo) {
+                player.setVolume(25); // Volumen bajito tipo restaurante
+                player.playVideo();
+            }
+
             document.getElementById('capa2-frase').style.display = 'none';
             document.getElementById('capa3-galeria').style.display = 'flex';
             window.scrollTo(0,0);
