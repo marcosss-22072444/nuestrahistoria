@@ -47,7 +47,7 @@
         .mostrar-suave { display: flex !important; animation: fadeIn 1s forwards; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -62,10 +62,7 @@
             color: #e6699c;
             font-weight: bold;
             background: white;
-            transition: all 0.3s ease;
         }
-
-        input:focus { border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
 
         /* BOTÓN LLAMATIVO */
         .btn-romantico {
@@ -79,8 +76,6 @@
             font-size: 1.2em;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
             animation: pulse 2s infinite;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -91,7 +86,6 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
         }
 
-        .btn-romantico:hover { transform: scale(1.05); }
         .btn-romantico:active { transform: scale(0.95); }
 
         /* CONTENIDO PRINCIPAL */
@@ -123,14 +117,11 @@
             width: 280px; 
             margin: 0;
             cursor: pointer;
-            position: relative;
             animation: flotarTodo 5s infinite ease-in-out;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.4s ease;
             box-sizing: border-box;
             flex: 0 0 280px;
         }
-
-        figure:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
 
         @keyframes flotarTodo {
             0%, 100% { transform: translateY(0); }
@@ -141,7 +132,6 @@
 
         figcaption { margin-top: 15px; font-weight: 600; color: #e6699c; font-size: 1.1em; }
 
-        /* CORAZONES */
         .heart-spark {
             position: absolute;
             pointer-events: none;
@@ -152,8 +142,8 @@
         }
 
         @keyframes fadeUp {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5) rotate(0deg); }
-            100% { opacity: 0; transform: translate(-50%, -150px) scale(1.8) rotate(20deg); }
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+            100% { opacity: 0; transform: translate(-50%, -150px) scale(1.8); }
         }
 
         @media (max-width: 600px) { figure { flex: 0 0 90%; } }
@@ -207,6 +197,7 @@
             }
         }
 
+        // ESTA ES LA PARTE CORREGIDA: Ahora abre la galería, no un enlace
         function abrirTodo() {
             const mensaje = document.getElementById('mensajeIntermedio');
             mensaje.classList.add('ocultar-suave');
@@ -214,7 +205,7 @@
             setTimeout(() => {
                 mensaje.style.display = 'none';
                 const galeria = document.getElementById('miGaleria');
-                galeria.style.display = 'flex';
+                galeria.style.display = 'flex'; // Cambia a flex para mostrarse
                 galeria.classList.add('mostrar-suave');
                 window.scrollTo(0,0);
             }, 800);
@@ -229,8 +220,8 @@
             const heart = document.createElement('div');
             heart.className = 'heart-spark';
             heart.innerHTML = '🤍'; 
-            const x = e.pageX || (e.touches && e.touches[0].pageX);
-            const y = e.pageY || (e.touches && e.touches[0].pageY);
+            const x = (e.pageX || (e.touches && e.touches[0].pageX));
+            const y = (e.pageY || (e.touches && e.touches[0].pageY));
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
             document.body.appendChild(heart);
