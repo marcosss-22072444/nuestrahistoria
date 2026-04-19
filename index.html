@@ -146,6 +146,9 @@
             <figure onclick="ir('https://marcosss-22072444.github.io/Lasjordanmiamorteamoojaladurarparasiempre/')">
                 <img src="foto5.png"><figcaption>Las jordan</figcaption>
             </figure>
+            <figure onclick="ir('carta-para-ti.html')">
+                <img src="foto6.png"><figcaption>Carta para ti</figcaption>
+            </figure>
         </div>
     </div>
 
@@ -174,14 +177,12 @@
         }
 
         function onPlayerReady(event) {
-            // El reproductor ya está cargado y listo para sonar al instante
         }
 
         function validar() {
             const val = document.getElementById('pass').value;
             if (val === '220724') {
                 document.getElementById('pass').blur();
-                // Al poner la pass, ya le decimos que se prepare (buffer)
                 if (player && player.cueVideoById) {
                     player.setVolume(25);
                 }
@@ -191,7 +192,6 @@
         }
 
         function mostrarGaleria() {
-            // Ejecución inmediata
             if (player) {
                 player.playVideo();
             }
